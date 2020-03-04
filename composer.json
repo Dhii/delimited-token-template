@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Dhii\\Output\\DelimitedTokenTemplate": "src"
+      "Dhii\\Output\\DelimitedTokenTemplate\\": "src"
     }
   },
   "autoload-dev": {
