@@ -1,0 +1,12 @@
+{
+  "name": "dhii/delimited-token-template",
+  "description": "A flexible implementation for handlebars-style templates",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Anton Ukhanev",
+      "email": "xedin.unknown@gmail.com"
+    }
+  ]
+}
