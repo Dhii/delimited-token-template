@@ -89,4 +89,25 @@ class TemplateTest extends TestCase
             $this->assertEquals("Good night, $value!", $result);
         }
     }
+
+    /**
+     * Tests that rendering happens correctly when the token name has a delimiter in the middle.
+     */
+    public function testRenderDelimiterInMiddle()
+    {
+        {
+            $leftDelim = '%';
+            $rightDelim = '%';
+            $escapeChar = '\\';
+            $key = 'user%name';
+            $value = 'Johnny';
+            $templateString = "Good night, %user\%name%!";
+            $subject = $this->createInstance($templateString, $leftDelim, $rightDelim, $escapeChar);
+        }
+
+        {
+            $result = $subject->render([$key => $value]);
+            $this->assertEquals("Good night, $value!", $result);
+        }
+    }
 }
