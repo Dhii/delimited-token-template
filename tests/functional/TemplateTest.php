@@ -47,4 +47,46 @@ class TemplateTest extends TestCase
             $this->assertEquals("{$name} had a $adjective {{animal}}. $name was very happy; :{{ $word!", $result);
         }
     }
+
+    /**
+     * Tests that the template can render correctly with only the left delimiter present.
+     */
+    public function testRenderLeftDelimiter()
+    {
+        {
+            $leftDelim = ':';
+            $rightDelim = '';
+            $escapeChar = '';
+            $key = 'name';
+            $value = 'Johnny';
+            $templateString = "Good night, :$key!";
+            $subject = $this->createInstance($templateString, $leftDelim, $rightDelim, $escapeChar);
+        }
+
+        {
+            $result = $subject->render([$key => $value]);
+            $this->assertEquals("Good night, $value!", $result);
+        }
+    }
+
+    /**
+     * Tests that the template can render correctly with only the right delimiter present.
+     */
+    public function testRenderRightDelimiter()
+    {
+        {
+            $leftDelim = '';
+            $rightDelim = '+';
+            $escapeChar = '';
+            $key = 'name';
+            $value = 'Johnny';
+            $templateString = "Good night, $key+!";
+            $subject = $this->createInstance($templateString, $leftDelim, $rightDelim, $escapeChar);
+        }
+
+        {
+            $result = $subject->render([$key => $value]);
+            $this->assertEquals("Good night, $value!", $result);
+        }
+    }
 }
