@@ -37,6 +37,16 @@ use Psr\Container\ContainerInterface;
  * keys in order to get used for replacement. In the above example, 'name{\{' still
  * contains the escape char because the delimiter is not whole. If the token
  * name was 'name\{{' in the template, the key would need to be 'name{{' however.
+ *
+ * It is possible to use only one of the delimiters and omit the other. This could
+ * be useful to render things that use syntax similar to prepared SQL statements,
+ * e.g. '/users/:username/profile', where ':username' is a token that is delimited
+ * only by a colon on the left. If only one of the delimiters is present (i.e.
+ * if the other is an empty string), the token name can only contain alphanumeric
+ * characters and '.', '-', and '_', while the escape character becomes irrelevant
+ * and is ignored. In other cases, i.e. when both delimiters are present, the token
+ * key can contain any characters, as long as they are not a delimiter, and it is
+ * possible to escape the delimiters.
  */
 class Template implements TemplateInterface
 {
@@ -134,14 +144,23 @@ class Template implements TemplateInterface
         $l = preg_quote($this->leftDelimiter, $d);
         $r = preg_quote($this->rightDelimiter, $d);
         $e = preg_quote('\\', $d);
+        $lExpr = strlen($l)
+            ? "(?<ldelim>(?<!{$e}){$l})" // The left delimiter unless escaped
+            : '';
+        $rExpr = strlen($r)
+            ? "(?<rdelim>(?<!{$e}){$r}(?!{$r}}))" // The right delimiter unless escaped
+            : '';
+        $nameExpr = strlen($l) && strlen($r)
+            ? "(?!{$r}).+?" // anything that is not the right delimiter
+            : "[\w\d_\-.]+";
 
         $expression =
             "{$d}" . // Open expr
-                "(?<ldelim>(?<!{$e}){$l})" . // left token delimiter
+                $lExpr . // left token delimiter
                 "(?<name>" . // token name
-                    "(?!{$r}).+?" . // anything that is not the right delimiter
+                    $nameExpr .
                 ")" .
-                "(?<rdelim>(?<!{$e}){$r}(?!{$r}}))" . // right token delimiter
+                $rExpr . // right token delimiter
             "{$d}" // Close expr
         ;
         preg_match_all($expression, $string, $matches, PREG_PATTERN_ORDER);
