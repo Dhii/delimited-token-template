@@ -22,7 +22,7 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Tests that a template renders correctly with both delimiters, including escape sequences.
+     * Tests that a template renders correctly with both delimiters (asymmetric), including escape sequences.
      */
     public function testRenderBothDelimiters()
     {
@@ -30,10 +30,10 @@ class TemplateTest extends TestCase
             $name = 'Mary';
             $adjective = 'little';
             $word = 'great';
-            $template = '{{name}} had a {{adjective}} {{animal}}. {{name}} was very happy; :\{{ {{\{{word}\}}}!';
+            $template = '{{name}}} had a {{adjective}}} {{animal}}}. {{name}}} was very happy; :\{{ {{\{{word}\}}}}!';
             $escapeChar = '\\';
             $leftDelimiter = '{{';
-            $rightDelimiter = '}}';
+            $rightDelimiter = '}}}';
             $subject = $this->createInstance($template, $leftDelimiter, $rightDelimiter, $escapeChar);
         }
 
@@ -44,7 +44,7 @@ class TemplateTest extends TestCase
                 '{{word}\}' => $word,
             ]);
 
-            $this->assertEquals("{$name} had a $adjective {{animal}}. $name was very happy; :{{ $word!", $result);
+            $this->assertEquals("{$name} had a $adjective {{animal}}}. $name was very happy; :{{ $word!", $result);
         }
     }
 
