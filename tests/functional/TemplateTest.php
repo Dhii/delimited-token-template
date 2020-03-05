@@ -21,7 +21,10 @@ class TemplateTest extends TestCase
         return $mock;
     }
 
-    public function testRender()
+    /**
+     * Tests that a template renders correctly with both delimiters, including escape sequences.
+     */
+    public function testRenderBothDelimiters()
     {
         {
             $name = 'Mary';
