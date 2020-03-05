@@ -146,13 +146,13 @@ class Template implements TemplateInterface
         $e = preg_quote('\\', $d);
         $lExpr = strlen($l)
             ? "(?<ldelim>(?<!{$e}){$l})" // The left delimiter unless escaped
-            : '';
+            : ''; // No delimiter
         $rExpr = strlen($r)
             ? "(?<rdelim>(?<!{$e}){$r}(?!{$r}}))" // The right delimiter unless escaped
-            : '';
+            : ''; // No delimiter
         $nameExpr = strlen($l) && strlen($r)
             ? "(?!{$r}).+?" // anything that is not the right delimiter
-            : "[\w\d_\-.]+";
+            : "[\w\d_\-.]+"; // Alphanumeric, underscore, dash, and dot
 
         $expression =
             "{$d}" . // Open expr
