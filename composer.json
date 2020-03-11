@@ -24,5 +24,10 @@
   },
   "autoload-dev": {
     "Dhii\\Output\\DelimitedTokenTemplate\\Test\\Func\\": "tests/functional"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "0.1.x-dev"
+    }
   }
 }
