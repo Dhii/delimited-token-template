@@ -6,8 +6,10 @@ namespace Dhii\Output\DelimitedTokenTemplate;
 
 use ArrayAccess;
 use Dhii\Output\Template\TemplateInterface;
+use Exception;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use RangeException;
 use Stringable;
 
 /**
@@ -98,6 +100,8 @@ class Template implements TemplateInterface
      * @return string A string with tokens replaced by values.
      *                If value not found in context, token will remain unchanged.
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     *
+     * @throws Exception If problem replacing.
      */
     protected function replaceTokens(string $template, $context): string
     {
@@ -115,6 +119,7 @@ class Template implements TemplateInterface
             if ($value === null) {
                 continue;
             }
+            $value = $this->normalizeValue($value);
 
             $result = str_replace($token, $value, $result);
         }
@@ -197,13 +202,15 @@ class Template implements TemplateInterface
         }
 
         /** @psalm-suppress RedundantConditionGivenDocblockType Not guaranteed by typehint */
-        if ($context instanceof ContainerInterface) {
-            return $context->has($key)
-                ? $context->get($key)
-                : $default;
+        if (!($context instanceof ContainerInterface)) {
+            throw new InvalidArgumentException('Invalid context');
         }
 
-        throw new InvalidArgumentException('Invalid context');
+        $value = $context->has($key)
+            ? $context->get($key)
+            : $default;
+
+        return $value;
     }
 
     /**
@@ -251,5 +258,30 @@ class Template implements TemplateInterface
         }
 
         return $newTokens;
+    }
+
+    /**
+     * Normalize a value to string.
+     *
+     * @param scalar|Stringable|mixed $value The value to normalize.
+     * @return string The normalized value.
+     *
+     * @throws RangeException If cannot normalize.
+     */
+    protected function normalizeValue($value): string
+    {
+        if (is_bool($value)) {
+            $value = (int) $value;
+        }
+
+        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            $value = (string) $value;
+        }
+
+        if (!is_string($value)) {
+            throw new RangeException(sprintf('Could not normalize value: %1$s', print_r($value, true)));
+        }
+
+        return $value;
     }
 }

@@ -5,6 +5,9 @@ namespace Dhii\Output\DelimitedTokenTemplate\Test\Func;
 use Dhii\Output\DelimitedTokenTemplate\Template as TestSubject;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RangeException;
+use stdClass;
+use Stringable;
 
 class TemplateTest extends TestCase
 {
@@ -109,5 +112,90 @@ class TemplateTest extends TestCase
             $result = $subject->render([$key => $value]);
             $this->assertEquals("Good night, $value!", $result);
         }
+    }
+
+    /**
+     * Tests that values of allowed types may be used, and disallowed throw.
+     *
+     * @dataProvider provideContext
+     * @param mixed $context The context to render with.
+     * @param mixed $expect What to expect.
+     * @param string|null $shouldExpectException The exception type to expect, if any.
+     */
+    public function testValueTypes($context, $expect, ?string $shouldExpectException)
+    {
+        {
+            $e = '\\';
+            $d = '%';
+            $key = 'key';
+            $template = "{$d}{$key}{$d}";
+            $subject = $this->createInstance($template, $d, $d, $e);
+        }
+
+        {
+            if ($shouldExpectException) {
+                $this->expectException($shouldExpectException);
+            }
+
+            $result = $subject->render($context);
+            $this->assertEquals($expect, $result);
+        }
+    }
+
+    /**
+     * @return array[]
+     */
+    public function provideContext(): array
+    {
+        return [
+            [ // Set
+                ['key' => $value = uniqid('value1')], // Context
+                $value, // Expect
+                null, // Should throw
+            ],
+
+            [ // Set
+                ['key' => $value = rand(1, 99)], // Context
+                $value, // Expect
+                null, // Should throw
+            ],
+
+            [ // Set
+                ['key' => $value = rand(0, 100) < 50], // Context
+                (string) (int) $value, // Expect
+                null, // Should throw
+            ],
+
+            [ // Set
+                ['key' => $value = $this->createStringable(uniqid('value2'))], // Context
+                $value, // Expect
+                null, // Should throw
+            ],
+
+            [ // Set
+                ['key' => new stdClass()], // Context
+                null, // Expect
+                RangeException::class, // Should throw
+            ],
+        ];
+    }
+
+    /**
+     * Creates a new stringable that represents the specified content.
+     *
+     * @param string $content The content of the stringable.
+     *
+     * @return Stringable|MockObject The new stringable.
+     */
+    protected function createStringable(string $content): Stringable
+    {
+        $mock = $this->getMockBuilder(Stringable::class)
+            ->setMethods(['__toString'])
+            ->getMockForAbstractClass();
+
+        $mock->method('__toString')
+            ->will($this->returnValue($content));
+
+        return $mock;
     }
 }
