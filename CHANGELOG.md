@@ -11,5 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Support for PHP 8.
 
+### Changed
+- Depending on newer version of the output standard.
+
 ## [0.1.0] - 2021-02-22
 Initial version.
