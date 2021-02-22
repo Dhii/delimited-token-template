@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3662ee9ee6b448af2face9d2a422d63",
+    "content-hash": "8d83edcd0cb01de241cf72271c057569",
     "packages": [
         {
             "name": "dhii/output-renderer-interface",
