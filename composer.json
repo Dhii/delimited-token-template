@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.1 | ^8.0",
     "dhii/output-renderer-interface": "^0.4"
   },
   "require-dev": {
