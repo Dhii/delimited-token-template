@@ -14,8 +14,10 @@
     "dhii/output-renderer-interface": "^0.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0",
-    "psr/container": "^1.0"
+    "phpunit/phpunit": "^6.0 | ^7.0 | ^8.0",
+    "psr/container": "^1.0",
+    "vimeo/psalm": "^3.11.7 | ^4.0",
+    "slevomat/coding-standard": "^6.0"
   },
   "autoload": {
     "psr-4": {
