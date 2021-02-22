@@ -234,7 +234,7 @@ class Template implements TemplateInterface
     /**
      * Cleans escaped delimiters from a token map.
      *
-     * @param array<scalar|Stringable> $tokens The map of token names to token strings.
+     * @param string[] $tokens The map of token names to token strings.
      *
      * @return string[] The token map with escaped delimiters replaced with literal delimiters in keys.
      */
