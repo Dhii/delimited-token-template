@@ -49,24 +49,18 @@ use Stringable;
  * and is ignored. In other cases, i.e. when both delimiters are present, the token
  * key can contain any characters, as long as they are not a delimiter, and it is
  * possible to escape the delimiters.
+ *
+ * @psalm-type Context = array<scalar|Stringable>|ArrayAccess|ContainerInterface
  */
 class Template implements TemplateInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $leftDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $rightDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $template;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $escapeChar;
 
     /**
@@ -99,10 +93,11 @@ class Template implements TemplateInterface
      * Replaces all tokens in a string with corresponding values from the context.
      *
      * @param string $template The string to replace the tokens in.
-     * @param array<scalar|Stringable>|ArrayAccess|ContainerInterface $context The map of keys to context values.
+     * @param Context $context The map of keys to context values.
      *
      * @return string A string with tokens replaced by values.
      *                If value not found in context, token will remain unchanged.
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     protected function replaceTokens(string $template, $context): string
     {
@@ -176,16 +171,19 @@ class Template implements TemplateInterface
     /**
      * Retrieves a value from a context by key.
      *
-     * @param array<scalar|Stringable>|ArrayAccess|ContainerInterface $context The context.
+     * @param Context $context The context.
      * @param string $key The key to retrieve the value for.
      * @param mixed $default The value to return if key not found in context.
      *
      * @return mixed The value for the given key, or the default value if not found.
      *
      * @throws InvalidArgumentException If context is invalid.
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     protected function getContextValue($context, string $key, $default)
     {
+        /** @psalm-suppress RedundantConditionGivenDocblockType Not guaranteed by typehint */
         if (is_array($context)) {
             return array_key_exists($key, $context)
                 ? $context[$key]
