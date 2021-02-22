@@ -196,6 +196,7 @@ class Template implements TemplateInterface
                 : $default;
         }
 
+        /** @psalm-suppress RedundantConditionGivenDocblockType Not guaranteed by typehint */
         if ($context instanceof ContainerInterface) {
             return $context->has($key)
                 ? $context->get($key)
