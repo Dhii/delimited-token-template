@@ -1,10 +1,9 @@
 # Delimited Token Template
 A flexible implementation for handlebars-style templates.
 
-[![Build Status](https://travis-ci.org/Dhii/delimited-token-template.svg?branch=develop)](https://travis-ci.org/Dhii/delimited-token-template)
-[![Code Climate](https://codeclimate.com/github/Dhii/delimited-token-template/badges/gpa.svg)](https://codeclimate.com/github/Dhii/delimited-token-template)
-[![Test Coverage](https://codeclimate.com/github/Dhii/delimited-token-template/badges/coverage.svg)](https://codeclimate.com/github/Dhii/delimited-token-template/coverage)
-[![Latest Stable Version](https://poser.pugx.org/Dhii/delimited-token-template/version)](https://packagist.org/packages/Dhii/delimited-token-template)
+[![Continuous Integration](https://github.com/Dhii/delimited-token-template/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/Dhii/delimited-token-template/actions/workflows/continuous-integration.yml)
+[![Latest Stable Version](https://poser.pugx.org/dhii/delimited-token-template/v)](//packagist.org/packages/dhii/delimited-token-template)
+[![Latest Unstable Version](https://poser.pugx.org/dhii/delimited-token-template/v/unstable)](//packagist.org/packages/dhii/delimited-token-template)
 
 ## Details
 This template implementation is useful if you need to replace simple tokens with values.
