@@ -8,6 +8,7 @@ use ArrayAccess;
 use Dhii\Output\Template\TemplateInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use Stringable;
 
 /**
  * A template that uses delimited tokens as placeholders.
@@ -97,8 +98,8 @@ class Template implements TemplateInterface
     /**
      * Replaces all tokens in a string with corresponding values from the context.
      *
-     * @param string                               $template The string to replace the tokens in.
-     * @param array|ArrayAccess|ContainerInterface $context  The map of keys to context values.
+     * @param string $template The string to replace the tokens in.
+     * @param array<scalar|Stringable>|ArrayAccess|ContainerInterface $context The map of keys to context values.
      *
      * @return string A string with tokens replaced by values.
      *                If value not found in context, token will remain unchanged.
@@ -136,7 +137,7 @@ class Template implements TemplateInterface
      *
      * @param string $string The string to look for tokens in.
      *
-     * @return array A map of token key to full token text.
+     * @return string[] A map of token key to full token text.
      *               E.g. for token text "{{hello}}" the key would be "hello";
      */
     protected function getTokens(string $string): array
@@ -175,9 +176,9 @@ class Template implements TemplateInterface
     /**
      * Retrieves a value from a context by key.
      *
-     * @param array|ArrayAccess|ContainerInterface $context The context.
-     * @param string                               $key     The key to retrieve the value for.
-     * @param mixed                                $default The value to return if key not found in context.
+     * @param array<scalar|Stringable>|ArrayAccess|ContainerInterface $context The context.
+     * @param string $key The key to retrieve the value for.
+     * @param mixed $default The value to return if key not found in context.
      *
      * @return mixed The value for the given key, or the default value if not found.
      *
@@ -233,9 +234,9 @@ class Template implements TemplateInterface
     /**
      * Cleans escaped delimiters from a token map.
      *
-     * @param array $tokens The map of token names to token strings.
+     * @param array<scalar|Stringable> $tokens The map of token names to token strings.
      *
-     * @return array The token map with escaped delimiters replaced with literal delimiters in keys.
+     * @return string[] The token map with escaped delimiters replaced with literal delimiters in keys.
      */
     protected function cleanTokens(array $tokens): array
     {
