@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Dhii\Output\DelimitedTokenTemplate;
@@ -7,6 +8,7 @@ use ArrayAccess;
 use Dhii\Output\Template\TemplateInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use Stringable;
 
 /**
  * A template that uses delimited tokens as placeholders.
@@ -47,24 +49,18 @@ use Psr\Container\ContainerInterface;
  * and is ignored. In other cases, i.e. when both delimiters are present, the token
  * key can contain any characters, as long as they are not a delimiter, and it is
  * possible to escape the delimiters.
+ *
+ * @psalm-type Context = array<scalar|Stringable>|ArrayAccess|ContainerInterface
  */
 class Template implements TemplateInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $leftDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $rightDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $template;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $escapeChar;
 
     /**
@@ -96,11 +92,12 @@ class Template implements TemplateInterface
     /**
      * Replaces all tokens in a string with corresponding values from the context.
      *
-     * @param string                               $template The string to replace the tokens in.
-     * @param array|ArrayAccess|ContainerInterface $context  The map of keys to context values.
+     * @param string $template The string to replace the tokens in.
+     * @param Context $context The map of keys to context values.
      *
      * @return string A string with tokens replaced by values.
      *                If value not found in context, token will remain unchanged.
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     protected function replaceTokens(string $template, $context): string
     {
@@ -135,7 +132,7 @@ class Template implements TemplateInterface
      *
      * @param string $string The string to look for tokens in.
      *
-     * @return array A map of token key to full token text.
+     * @return string[] A map of token key to full token text.
      *               E.g. for token text "{{hello}}" the key would be "hello";
      */
     protected function getTokens(string $string): array
@@ -174,16 +171,19 @@ class Template implements TemplateInterface
     /**
      * Retrieves a value from a context by key.
      *
-     * @param array|ArrayAccess|ContainerInterface $context The context.
-     * @param string                               $key     The key to retrieve the value for.
-     * @param mixed                                $default The value to return if key not found in context.
+     * @param Context $context The context.
+     * @param string $key The key to retrieve the value for.
+     * @param mixed $default The value to return if key not found in context.
      *
      * @return mixed The value for the given key, or the default value if not found.
      *
      * @throws InvalidArgumentException If context is invalid.
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     protected function getContextValue($context, string $key, $default)
     {
+        /** @psalm-suppress RedundantConditionGivenDocblockType Not guaranteed by typehint */
         if (is_array($context)) {
             return array_key_exists($key, $context)
                 ? $context[$key]
@@ -196,6 +196,7 @@ class Template implements TemplateInterface
                 : $default;
         }
 
+        /** @psalm-suppress RedundantConditionGivenDocblockType Not guaranteed by typehint */
         if ($context instanceof ContainerInterface) {
             return $context->has($key)
                 ? $context->get($key)
@@ -231,9 +232,9 @@ class Template implements TemplateInterface
     /**
      * Cleans escaped delimiters from a token map.
      *
-     * @param array $tokens The map of token names to token strings.
+     * @param string[] $tokens The map of token names to token strings.
      *
-     * @return array The token map with escaped delimiters replaced with literal delimiters in keys.
+     * @return string[] The token map with escaped delimiters replaced with literal delimiters in keys.
      */
     protected function cleanTokens(array $tokens): array
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Dhii\Output\DelimitedTokenTemplate;
@@ -11,17 +12,11 @@ use Dhii\Output\Template\TemplateInterface;
  */
 class TemplateFactory implements StringTemplateFactoryInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $leftDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $rightDelimiter;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $escapeChar;
 
     /**
