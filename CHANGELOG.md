@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Changed
+- Context values will now be normalized (#3).
 
 ## [0.2.0-alpha1] - 2021-02-22
 ### Removed
