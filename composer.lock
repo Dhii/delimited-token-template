@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b285e6c9a294be9e68a4d86ce9c7337",
+    "content-hash": "a3662ee9ee6b448af2face9d2a422d63",
     "packages": [
         {
             "name": "dhii/output-renderer-interface",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/output-renderer-interface.git",
-                "reference": "82dbacdf013790c76b04de349ec0632b9a5bf96a"
+                "reference": "b21c816c6e750d95f7d5b409709471a33a627bb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/output-renderer-interface/zipball/82dbacdf013790c76b04de349ec0632b9a5bf96a",
-                "reference": "82dbacdf013790c76b04de349ec0632b9a5bf96a",
+                "url": "https://api.github.com/repos/Dhii/output-renderer-interface/zipball/b21c816c6e750d95f7d5b409709471a33a627bb0",
+                "reference": "b21c816c6e750d95f7d5b409709471a33a627bb0",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/Dhii/output-renderer-interface/issues",
                 "source": "https://github.com/Dhii/output-renderer-interface/tree/0.4.x"
             },
-            "time": "2021-02-22T06:45:01+00:00"
+            "time": "2021-02-22T07:12:17+00:00"
         }
     ],
     "packages-dev": [
